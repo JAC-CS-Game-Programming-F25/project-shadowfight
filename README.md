@@ -1,117 +1,495 @@
-# Final Project
+\*\*\*\* i edited this with ai to make my ideas more clear and comprehensive
 
--   [ ] Read the [project requirements](https://vikramsinghmtl.github.io/420-5P6-Game-Programming/project/requirements).
--   [ ] Replace the sample proposal below with the one for your game idea.
--   [ ] Get the proposal greenlit by Vik.
--   [ ] Place any assets in `assets/` and remember to update `src/config.json`.
--   [ ] Decide on a height and width inside `src/globals.js`. The height and width will most likely be determined based on the size of the assets you find.
--   [ ] Start building the individual components of your game, constantly referring to the proposal you wrote to keep yourself on track.
--   [ ] Good luck, you got this!
+# Final Project - Shadow Fight 2 Replica
+
+## Project Checklist
+
+-   [x] Read the [project requirements](https://vikramsinghmtl.github.io/420-5P6-Game-Programming/project/requirements)
+-   [ ] Get the proposal greenlit by Vik
+-   [ ] Place assets in `assets/` and update `src/config.json`
+-   [ ] Decide on height and width in `src/globals.js` based on asset sizes
+-   [ ] Build individual game components according to proposal
+-   [ ] Test and polish final game
 
 ---
 
-# Sample Proposal - Pokémon the Trading Card Game
+# Shadow Fight 2 Game Replica
 
-> [!note]
-> This was taken from a project I did in university so the scope is **much** larger than what I'm expecting from you in terms of number of features!
+> [!NOTE]
+> This project is inspired by Shadow Fight 2, one of my favorite mobile fighting games. I will replicate the core combat mechanics, progression system, and visual style of the original game, adapting it for web-based gameplay with JavaScript and Canvas.
 
 ## ✒️ Description
 
-In this turn-based battle card game, players assume the role of a Pokémon trainer and use their Pokémon to battle their opponent's Pokémon. Players play Pokémon to the field and attack their opponent's Pokémon. A Pokémon that has sustained enough damage is Knocked Out, and the player who knocked it out draws a Prize card. There are usually six Prize cards, and the primary win condition is to draw all of them. Other ways to win are by knocking out all the Pokémon the opponent has on the field so that the opponent has none left, or if at the beginning of their opponent's turn there are no cards left to draw in the opponent's deck.
+Shadow Fight 2 follows the journey of Shadow, a warrior cursed to exist as a silhouette who must fight through multiple worlds to regain his physical form. The player controls Shadow through various combat encounters, facing increasingly difficult opponents and bosses.
+
+### Core Gameplay Mechanics
+
+-   **Combat System**: Players engage in 2D fighting matches against AI opponents
+-   **Hit Types**:
+    -   **Normal Hit**: Standard damage
+    -   **Critical Hit**: High damage when landing powerful strikes
+    -   **Head Hit**: Bonus damage when striking the opponent's head
+-   **Blocking**: Players can block incoming attacks (except critical hits) by staying still
+-   **Round System**: Best of 3 rounds - first to win 2 rounds wins the match
+-   **Equipment System**: Players can equip weapons, armor, helmets, ranged weapons, and magic spells
+-   **Progression**: Defeat opponents to earn coins and gems, unlock new equipment, and advance through worlds
+
+### Simplified Scope
+
+To make this project feasible within the course timeframe:
+
+-   Limited weapon selection (3-5 weapon types instead of the full arsenal)
+-   Simplified animation system using sprite-based or skeleton mesh approach
+-   Focus on core combat mechanics rather than full RPG progression
+-   Single-player experience with AI opponents only
 
 ## 🕹️ Gameplay
 
-Players begin by having one player select heads or tails, and the other flips a coin; the winner of the coin flip will decide who goes first or second. The player going first cannot attack their first turn, unless the card says otherwise. (Dice may be used in place of coins, with even numbers representing heads and odd numbers representing tails). Players then shuffle their decks and draw seven cards, then play one Basic Pokémon onto the field. This Pokémon is known as the Active Pokémon and is usually the one that attacks and receives damage. If a player does not have any Basic Pokémon, they must shuffle and draw a new hand, and the opponent may draw one additional card. Once both players have at least one Basic Pokémon, they can play up to five more Basic Pokémon onto their "Bench" (representing the maximum-carry limit of six from the video games). Players then take the top six cards of their deck and place them to the side as Prize Cards. Play then begins with the player who won the coin flip.
+### Game Flow
 
-Play alternates between players who may take several actions during their turn, including playing new Basic Pokémon, evolving their Pokémon, playing Trainer cards and Energy cards, and using Pokémon Abilities. A player may also retreat their Active Pokémon, switching the Active Pokémon with one on the Bench. At the end of their turn, a player may use one of their Active Pokémon's attacks, provided the prerequisite amount and types of Energy are attached to that Pokémon. Effects from that attack are then activated and damage may be placed on the Defending Pokémon; some attacks simply have effects but do not do damage. Damage may be modified depending on whether the defender has a weakness or a resistance to the attacker's Pokémon type. If the final damage exceeds the defending Pokémon's HP, it is Knocked Out, and the active player takes a prize card and ends their turn.
+1. **Main Menu**: Player selects game mode and manages equipment
+2. **Equipment Selection**: Choose weapon, armor, helmet, ranged weapon (unlocked after Tournament Level 5), and magic (unlocked after Boss 1)
+3. **Fight Selection**: Choose from available fights on the world map
+4. **Pre-Fight Screen**: View opponent, potential rewards (coins/gems), and confirm entry
+5. **Combat**: Engage in best-of-3 rounds fighting match
+6. **Post-Fight**: Collect rewards, gain experience, return to map
 
-This implementation of _Pokémon the Trading Card Game_ is a single player experience with an AI. The game is played primarily with the mouse to interact with the cards and general GUI. The players can optionally hit `M` on their keyboard to mute all game sounds.
+### Combat Mechanics
+
+**Turn Structure**:
+
+-   Real-time combat with simultaneous player and AI actions
+-   Players can move left/right, jump, attack (punch/kick), block, use ranged weapons, and cast magic
+-   Timing and positioning are critical for landing hits and avoiding damage
+
+**Damage System**:
+
+-   **First Hit**: First successful strike in a round
+-   **Normal Damage**: Base damage from attacks
+-   **Critical Hit**: Triggered when damage exceeds critical threshold, deals extra damage
+-   **Head Hit**: Bonus damage when attack connects with opponent's head hitbox
+-   **Enchantments**: Special effects triggered by equipment under specific conditions
+
+**Round Timer**:
+
+-   Regular fights: 60 seconds per round
+-   Boss fights: 90 seconds per round
+-   If timer expires, player with higher health wins the round
+
+**Controls**:
+
+-   **Movement Wheel** (Arrow Keys): Left/Right movement, Up to jump, Down to crouch
+-   **Punch Button** (Z): Perform punch attacks
+-   **Kick Button** (X): Perform kick attacks
+-   **Ranged Button** (C): Use equipped ranged weapon (cooldown-based)
+-   **Magic Button** (V): Cast equipped magic spell (cooldown-based)
+-   **Combo System**: Chain punch and kick in sequences for special moves
+
+### Game Modes
+
+1. **Tournament**: Series of fights against progressively harder opponents
+2. **Boss Fight**: Special encounters against world bosses (3 rounds required)
+3. **Duel**: Quick single fights for practice and coin farming
+4. **Survival**: Fight continuous waves of enemies (stretch goal)
+
+### Progression System
+
+**Currency**:
+
+-   **Coins**: Earned from fights, used to purchase and upgrade equipment
+-   **Gems**: Rare currency for premium items (optional if time permits)
+
+**Equipment**:
+
+-   **Weapons**: Different attack patterns and damage values
+-   **Armor**: Increases defense and health pool
+-   **Helmets**: Additional defense, may have special effects
+-   **Ranged Weapons**: Shurikens, kunai, etc. with limited cooldown
+-   **Magic Spells**: Fireball, lightning, etc. with mana/cooldown cost
+-   **Enchantments**: Special passive effects (e.g., poison on hit, life steal, critical chance boost)
+
+**Leveling**:
+
+-   Equipment can be upgraded using coins
+-   Higher levels increase base stats (damage, defense, etc.)
+-   Player gains XP from fights to unlock new content
 
 ## 📃 Requirements
 
-> [!note]
-> This was a web project so that's why you'll see requirements about logging in and uploading data which for you is irrelevant. Focus more on the requirements describing actions taken for gameplay.
+### Core Requirements (Must-Have)
 
-1. The user shall register to be able to login.
-2. The user shall login to be able to play a game.
-3. The user shall upload a valid deck file.
-4. The user shall upload a valid cards file.
-5. The user shall upload a valid abilities file.
-6. The user shall select which deck they will use in the game.
-7. The user shall select which deck the AI will use in the game.
-8. The system shall "flip a coin" to decide which player goes first.
-9. The system shall shuffle the user's deck.
-10. The system shall draw the top 7 cards from the user's deck.
-11. If the user does not have a Basic Pokémon in their hand the system shall "mulligan" until they do.
-12. Upon each mulligan, the AI shall draw a card.
-13. The user shall put one of their Basic Pokémon face down as their Active Pokémon.
-14. The user shall put up to 5 more Basic Pokémon face down on their Bench.
-15. Upon a new turn, the system shall draw a card from the deck of the current player.
-16. Upon a new turn, the system shall place the drawn card in the hand of the current player.
-17. The user shall put (up to 5 total) Basic Pokémon cards from their hand onto their Bench.
-18. The user shall Evolve their Pokémon as many times as they choose.
-19. The user shall attach an Energy card from their hand to one of their Pokémon once per turn.
-20. The user shall play Trainer cards (as many as they want, but only one Supporter card and one Stadium card per turn).
-21. The user shall Retreat their Active Pokémon once per turn.
-22. The user shall use as many Abilities as they choose.
-23. The user shall attack the opponent's Active Pokémon.
-24. After a player attacks, the system shall end their turn and start their opponent's turn.
-25. The system shall execute any "special conditions" after a turn is over.
-26. The user shall pick a Victory Card when the opposing Active Pokémon dies.
+1. ✅ Equipment selection system with inventory UI
+2. ✅ Coin and gem currency system
+3. ✅ Pre-fight reward display showing potential earnings
+4. ✅ Shop system for purchasing equipment
+5. ✅ Inventory management screen
+6. ✅ Multiple game modes (Tournament, Boss Fight, Duel)
+7. ✅ Enchantment system with activation conditions
+8. ✅ Equipment upgrade system
+9. ✅ AI opponent with difficulty scaling
+10. ✅ Thematic music and backgrounds matching original game aesthetic
+11. ✅ Sound effects for hits, getting hit, and special moves
+12. ✅ Gender-based voice variations for opponents
+13. ✅ Boss fights with mandatory 3-round format
+14. ✅ Simplified storyline progression through worlds
+15. ✅ Move list/combo reference accessible from main menu
+16. ✅ Round timer (60s regular, 90s boss fights)
 
-### 🤖 State Diagram
+### Technical Requirements
 
-> [!note]
-> Remember that you'll need diagrams for not only game states but entity states as well.
+1. **State Management**: Implement state machines for game flow and combat states
+2. **Entity System**: Create base Entity class with Fighter, Player, and Opponent subclasses
+3. **Collision Detection**: Accurate hitboxes for attacks and blocking
+4. **Animation System**: Smooth sprite-based or skeleton mesh animations
+5. **AI System**: Behavior tree or state-based AI for opponents
+6. **Data Persistence**: Save player progress, inventory, and currency
+7. **Responsive UI**: Clean interface matching game aesthetic
 
-![State Diagram](./assets/images/StateDiagram.png)
+### Stretch Goals (Nice-to-Have)
 
-### 🗺️ Class Diagram
+-   Survival mode with endless waves
+-   More weapon variety (6-10 types)
+-   Advanced enchantment combinations
+-   Gem-based premium shop
+-   Special moves with cinematic animations
+-   Tournament leaderboard system
 
-![Class Diagram](./assets/images/ClassDiagram.png)
+## 🤖 State Diagram
 
-### 🧵 Wireframes
+The game uses multiple state machines:
 
-> [!note]
-> Your wireframes don't have to be super polished. They can even be black/white and hand drawn. I'm just looking for a rough idea about what you're visualizing.
+### Main Game States
 
-![Main Menu](./assets/images/Main-Menu.png)
+```
+MainMenu → CharacterSelection / Controls → Map → PreFight → Fighting → RoundEnd → Victory/Defeat → Rewards → Map
+MainMenu → Controls → MainMenu
+```
 
--   _Let's Play_ will navigate to the main game.
--   _Upload Cards_ will navigation to the forms for uploading and parsing the data files for the game.
--   _Change Log_ will navigate the user to a page with a list of features/changes that have been implemented throughout the development of the game.
+### Combat States
 
-![Game Board](./assets/images/Game-Board.png)
+```
+PlayerIdle ↔ PlayerWalking ↔ PlayerAttacking → PlayerCombo
+PlayerIdle ↔ PlayerJumping → PlayerAirborne → PlayerAttacking
+PlayerIdle ↔ PlayerBlocking
+Any State → PlayerHit → PlayerKnockedDown → PlayerGettingUp → PlayerIdle
+Any State → PlayerDead (when HP = 0)
+```
 
-We want to keep the GUI as simple and clear as possible by having cards with relevant images to act as a way for the user to intuitively navigate the game. We want to implement a layout that would look like as if one were playing a match of the Pokémon Trading Card Game with physical cards in real life. Clicking on any of the cards will reveal that card's details to the player.
+> [!NOTE]
+> Full state diagram created using Mermaid.js - see `assets/diagrams/state-diagram.md`
 
-### 🎨 Assets
+## 🗺️ Class Diagram
 
-We used [app.diagrams.net](https://app.diagrams.net/) to create the wireframes. Wireframes are the equivalent to the skeleton of a web app since they are used to describe the functionality of the product and the users experience.
+### Entity Hierarchy
 
-We plan on following trends already found in other trading card video games, such as Pokémon Trading Card Game Online, Hearthstone, Magic the Gathering Arena, and Gwent.
+```
+Entity (abstract)
+├── Fighter (abstract)
+│   ├── Player
+│   └── Opponent
+├── Projectile
+└── MagicEffect
+```
 
-The GUI will be kept simple and playful, as to make sure the game is easy to understand what each component does and is, as well as light hearted to keep to the Pokémon theme.
+### Equipment System
+
+```
+Weapon
+RangedWeapon
+Magic
+Inventory
+```
+
+### AI System
+
+```
+AIBehavior
+└── Decision tree for opponent actions
+```
+
+> [!NOTE]
+> Complete class diagram with methods and properties - see `assets/diagrams/class-diagram.md`
+
+## 🧵 Wireframes
+
+### Main Menu
+
+-   **SHADOW FIGHT** title at top
+-   Menu buttons: PLAY, SHOP, INVENTORY, SETTINGS
+-   Simple, dark theme with orange accents
+
+### Map / Level Selection
+
+-   Node-based progression path
+-   Regular fight nodes (circles)
+-   Boss fight nodes (larger, distinct design)
+-   Visual progression showing completed and locked fights
+
+### Fight Screen
+
+-   **Top**: Player health bar (left), Opponent health bar (right)
+-   **Center**: Round indicator (3 dots showing wins)
+-   **Main Area**: Player character (left), Opponent (right), background
+-   **Bottom Left**: Movement wheel (directional controls)
+-   **Bottom Right**: Action buttons (Punch, Kick, Ranged, Magic)
+
+### Shop
+
+-   Tabbed interface: Weapons, Ranged, Magic, Armor
+-   Grid layout showing items with icons, names, and prices
+-   Coin display in top-right corner
+-   BUY buttons for each item
+
+### Inventory / Loadout
+
+-   Three equipment slots: WEAPON, RANGED, MAGIC
+-   Visual display of equipped items
+-   Item stats and descriptions
+-   EQUIP button for owned items
+
+### Victory / Defeat Screen
+
+-   Large "VICTORY!" or "DEFEAT" text
+-   Rewards display: +XP, +Coins, +Gems
+-   Buttons: CONTINUE (back to map), MENU (main menu)
+
+> [!NOTE]
+> Interactive wireframes created in HTML - see `assets/wireframes/wireframe.html`
+
+## 🎨 Assets
+
+### Required Assets
 
 #### 🖼️ Images
 
--   Most images will be used from the well known community driven wikipedia site, [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Main_Page).
--   Especially their [Trading Card Game section](<https://bulbapedia.bulbagarden.net/wiki/Full_Art_card_(TCG)>).
+-   **Character Sprites**: Shadow silhouette animations for idle, walk, attack, block, jump, hit, death
+-   **Opponent Sprites**: Various enemy types with different silhouettes
+-   **Backgrounds**: Multiple world-themed backgrounds (dojo, forest, temple, etc.)
+-   **Equipment Icons**: Visual representations of weapons, armor, helmets, ranged weapons, magic
+-   **UI Elements**: Buttons, health bars, menus, icons
+-   **Effects**: Hit sparks, magic effects, projectile sprites
 
 #### ✏️ Fonts
 
-For fonts, a simple sans-serif like Roboto will look quite nice. It's a font that is legible, light on storage size, and fun to keep with the theme we're going for. We also used a more cartoonish Pokemon font for the title screen.
-
--   [Pokemon](https://www.dafont.com/pokemon.font)
--   [Roboto](https://fonts.google.com/specimen/Roboto)
+-   **Title Font**: Bold, stylized font for "SHADOW FIGHT" title
+-   **UI Font**: Clean, readable font for menus and stats
+-   **Damage Numbers**: Bold font for displaying damage values
+-   **Timer Font**: Clear font for round timer
 
 #### 🔊 Sounds
 
-All sounds were taken from [freesound.org](https://freesound.org) for the actions pertaining to cards.
+-   **Background Music**:
+    -   Menu theme
+    -   Tournament fight music (multiple tracks for variety)
+    -   Boss fight music (more intense)
+-   **Sound Effects**:
+    -   Punch sounds (multiple variations)
+    -   Kick sounds (multiple variations)
+    -   Block/deflect sound
+    -   Ranged weapon throw
+    -   Magic casting sound
+    -   Hit impact (normal, critical, head hit)
+    -   Getting hit grunts (male and female voices)
+    -   Death sound
+    -   Victory fanfare
+    -   UI click/select sounds
 
--   [Shuffle cards](https://freesound.org/people/VKProduktion/sounds/217502/)
--   [Flip card](https://freesound.org/people/Splashdust/sounds/84322/)
+### Asset Sources
 
-### 📚 References
+1. **Official Shadow Fight 2 Assets**: Extract sprites and sounds from game files (for educational purposes)
+2. **Sprite Creation**: Screenshot gameplay and use background removal tools to create custom sprites
+3. **Skeleton Mesh Library**: Use libraries like Spine or DragonBones for character animation (if time permits)
+4. **Icon Sets**: Use matching icon packs for equipment and UI elements
+5. **Sound Libraries**: Freesound.org, OpenGameArt.org for additional sound effects
+6. **Music**: Original Shadow Fight 2 soundtrack or similar royalty-free alternatives
 
--   [Pokemon Rulebook](http://assets.pokemon.com/assets/cms2/pdf/trading-card-game/rulebook/xy8-rulebook-en.pdf)
+## 📚 References
+
+### Game Reference
+
+-   **Shadow Fight 2** (Nekki, 2014) - Primary reference for gameplay, mechanics, and aesthetics
+-   **Shadow Fight 3** - Reference for improved combat mechanics
+-   **Shades** - Similar game for alternative implementation ideas
+
+### Technical References
+
+-   **Shadow Fight 2 Wiki**: Detailed information on mechanics, damage calculations, and progression
+-   **Game Physics**: 2D fighting game physics and collision detection
+-   **AI Behavior Trees**: For implementing opponent decision-making
+-   **Canvas Animation**: Smooth sprite animation techniques
+
+### Resources
+
+-   Shadow Fight 2 Fandom Wiki: https://shadowfight.fandom.com/
+-   Combat system documentation
+-   Equipment stats and enchantment effects
+-   Move combinations and combo system
+
+## 🔧 Libraries & Tools
+
+### Planned Libraries
+
+1. **Animation System** (Choose One):
+
+    - **Spine / DragonBones**: Skeleton-based animation (if available)
+    - **Custom Sprite Engine**: Frame-based animation system
+    - Goal: Smooth, responsive character animations
+
+2. **Physics** (if needed):
+
+    - Simple custom physics for movement and jumping
+    - Collision detection using rectangular hitboxes
+
+3. **AI Decision Making**:
+
+    - Custom behavior tree system
+    - State-based AI with difficulty modes (Easy, Medium, Hard)
+    - Possible integration with AI services for adaptive difficulty
+
+4. **Audio**:
+    - Web Audio API for sound effects and music
+    - Audio sprite sheets for efficient loading
+
+### Development Tools
+
+-   **Canvas API**: Core rendering
+-   **JavaScript ES6+**: Game logic and OOP structure
+-   **JSON**: Asset configuration and data management
+-   **Git**: Version control
+
+## 🧮 Algorithms & Game Logic
+
+### Combat Algorithm
+
+```
+Every Frame:
+1. Update player input state
+2. Update AI decision (every N frames)
+3. Update character positions and velocities
+4. Check for attack collisions
+5. Apply damage calculations
+6. Update animations
+7. Check win conditions
+8. Update UI (health bars, timer)
+```
+
+### Damage Calculation
+
+```javascript
+baseDamage = weapon.damage + player.attackPower;
+if (hitType === "critical") {
+    finalDamage = baseDamage * 1.5;
+} else if (hitType === "head") {
+    finalDamage = baseDamage * 1.3;
+} else {
+    finalDamage = baseDamage;
+}
+
+if (opponent.isBlocking && hitType !== "critical") {
+    finalDamage *= 0.3; // Blocking reduces damage by 70%
+}
+
+finalDamage -= opponent.defense;
+applyDamage(opponent, finalDamage);
+```
+
+### AI Behavior Algorithm
+
+```
+AI Decision Tree:
+1. Calculate distance to player
+2. Evaluate threat level
+3. Check health percentage
+4. Determine action based on:
+   - If far away: Move closer OR use ranged weapon
+   - If close and player attacking: Block OR dodge
+   - If close and player vulnerable: Attack OR use magic
+   - If low health: Defensive tactics, use magic
+   - If high health: Aggressive tactics, combos
+5. Apply difficulty modifiers:
+   - Easy: Slow reactions, simple patterns
+   - Medium: Moderate reactions, some combos
+   - Hard: Fast reactions, advanced combos, feints
+```
+
+### Enchantment System
+
+```javascript
+enchantments = {
+    poison: {
+        condition: "onHit",
+        effect: "damageOverTime",
+        duration: 3000,
+        tickDamage: 5,
+    },
+    lifesteal: {
+        condition: "onDamage",
+        effect: "healOnHit",
+        healPercent: 0.2, // Heal 20% of damage dealt
+    },
+    criticalBoost: {
+        condition: "passive",
+        effect: "increaseCritChance",
+        bonus: 0.15, // +15% crit chance
+    },
+};
+```
+
+## 📅 Development Timeline
+
+### Week 1-2: Foundation
+
+-   Set up project structure and canvas rendering
+-   Implement base Entity and Fighter classes
+-   Create basic movement and collision detection
+-   Load and display basic sprites
+
+### Week 3-4: Combat System
+
+-   Implement attack system and hitboxes
+-   Add blocking and damage calculation
+-   Create combo system
+-   Develop AI behavior for opponents
+
+### Week 5-6: Game States & UI
+
+-   Build all game state screens
+-   Implement menu navigation
+-   Create shop and inventory systems
+-   Add equipment management
+
+### Week 7-8: Content & Polish
+
+-   Add multiple weapons and equipment
+-   Implement enchantment system
+-   Create multiple opponent types
+-   Add sounds and music
+
+### Week 9-10: Testing & Refinement
+
+-   Balance damage and difficulty
+-   Polish animations and effects
+-   Bug fixing and optimization
+-   Final presentation preparation
+
+## 🎯 Success Criteria
+
+This project will be considered successful if it achieves:
+
+1. ✅ Playable combat system with smooth controls
+2. ✅ Working AI opponent with multiple difficulty levels
+3. ✅ Complete equipment and upgrade system
+4. ✅ At least 2 game modes (Tournament, Boss Fight)
+5. ✅ Persistent progression (saves coins, equipment, progress)
+6. ✅ Polished UI matching the Shadow Fight aesthetic
+7. ✅ Sound effects and music implementation
+8. ✅ Minimum 3 different weapons and 2 opponent types
+9. ✅ Stable performance (60 FPS target)
+10. ✅ Complete game loop from menu to victory
+
+---
+
+**Student Name**: [Your Name]  
+**Course**: 420-5P6 Game Programming  
+**Instructor**: Vik  
+**Submission Date**: [Date]

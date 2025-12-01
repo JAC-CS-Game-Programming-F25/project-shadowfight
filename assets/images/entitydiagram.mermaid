@@ -1,0 +1,171 @@
+classDiagram
+    class Entity {
+        <<abstract>>
+        +Vector2 position
+        +Vector2 velocity
+        +int health
+        +int maxHealth
+        +bool isDead
+        +bool isInvulnerable
+        +string currentState
+        +Direction facing
+        +update()
+        +render()
+        +takeDamage(amount)
+        +die()
+    }
+    
+    class Fighter {
+        <<abstract>>
+        +int attackPower
+        +int defense
+        +float moveSpeed
+        +float jumpForce
+        +bool isBlocking
+        +bool isAttacking
+        +int comboCounter
+        +Weapon equippedWeapon
+        +RangedWeapon equippedRanged
+        +Magic equippedMagic
+        +move(direction)
+        +jump()
+        +attack()
+        +block()
+        +useWeapon()
+        +useRanged()
+        +useMagic()
+        +checkCollision(other)
+    }
+    
+    class Player {
+        +int experience
+        +int level
+        +int coins
+        +Inventory inventory
+        +handleInput()
+        +gainExperience(amount)
+        +levelUp()
+    }
+    
+    class Opponent {
+        +string opponentType
+        +int difficulty
+        +AIBehavior ai
+        +updateAI()
+        +chooseAction()
+        +calculateDistance(player)
+    }
+    
+    class Weapon {
+        +string name
+        +int damage
+        +float range
+        +float attackSpeed
+        +string weaponType
+        +AnimationSet animations
+        +attack(attacker, target)
+        +checkHit(target)
+    }
+    
+    class RangedWeapon {
+        +string name
+        +int damage
+        +int ammo
+        +int maxAmmo
+        +float projectileSpeed
+        +float cooldown
+        +shoot(shooter)
+        +reload()
+    }
+    
+    class Magic {
+        +string name
+        +int damage
+        +int manaCost
+        +float cooldown
+        +float castTime
+        +string effectType
+        +bool isAOE
+        +cast(caster, target)
+        +applyEffect(target)
+    }
+    
+    class Projectile {
+        +Vector2 position
+        +Vector2 velocity
+        +int damage
+        +Entity owner
+        +bool isActive
+        +string projectileType
+        +update()
+        +checkCollision(target)
+        +destroy()
+    }
+    
+    class MagicEffect {
+        +Vector2 position
+        +int damage
+        +Entity caster
+        +float duration
+        +float radius
+        +bool isActive
+        +string effectType
+        +update()
+        +checkHit(target)
+        +expire()
+    }
+    
+    class Inventory {
+        +List~Weapon~ weapons
+        +List~RangedWeapon~ rangedWeapons
+        +List~Magic~ spells
+        +int coins
+        +addItem(item)
+        +removeItem(item)
+        +equipItem(item)
+    }
+    
+    class AIBehavior {
+        +float aggressiveness
+        +float defensiveness
+        +float rangedPreference
+        +float magicPreference
+        +decide(player, opponent)
+        +shouldAttack()
+        +shouldBlock()
+        +shouldUseRanged()
+        +shouldUseMagic()
+        +calculateThreat(player)
+    }
+    
+    class CollisionBox {
+        +float x
+        +float y
+        +float width
+        +float height
+        +bool isActive
+        +intersects(other)
+    }
+    
+    Entity <|-- Fighter
+    Fighter <|-- Player
+    Fighter <|-- Opponent
+    
+    Fighter "1" --> "0..1" Weapon : equips
+    Fighter "1" --> "0..1" RangedWeapon : equips
+    Fighter "1" --> "0..1" Magic : equips
+    Fighter "1" --> "1" CollisionBox : has
+    
+    Player "1" --> "1" Inventory : has
+    
+    Opponent "1" --> "1" AIBehavior : uses
+    
+    RangedWeapon --> Projectile : creates
+    Magic --> MagicEffect : creates
+    
+    Projectile "1" --> "1" CollisionBox : has
+    MagicEffect "1" --> "1" CollisionBox : has
+    
+    Inventory "1" --> "*" Weapon : contains
+    Inventory "1" --> "*" RangedWeapon : contains
+    Inventory "1" --> "*" Magic : contains

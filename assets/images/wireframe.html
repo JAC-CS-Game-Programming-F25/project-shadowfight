@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Fight 2 Wireframes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff6b00;
+        }
+        
+        .wireframe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .wireframe {
+            background: #2a2a2a;
+            border: 2px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .wireframe-title {
+            background: #ff6b00;
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .screen {
+            background: #1a1a1a;
+            border: 3px solid #666;
+            aspect-ratio: 16/9;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Main Menu */
+        .menu-title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff6b00;
+            margin-top: 40px;
+            text-shadow: 2px 2px 4px #000;
+            z-index: 5;
+            position: relative;
+        }
+        
+        .menu-buttons {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 300px;
+            z-index: 10;
+        }
+        
+        .button {
+            background: #ff6b00;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #fff;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        
+        /* Map Screen */
+        .map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(to bottom, #2a2a4a, #1a1a2a);
+        }
+        
+        .map-path {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: #666;
+            transform: translateY(-50%);
+        }
+        
+        .map-node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #444;
+            border: 3px solid #ff6b00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff6b00;
+            font-weight: bold;
+        }
+        
+        .map-boss {
+            background: #660000;
+            border-color: #ff0000;
+            width: 80px;
+            height: 80px;
+        }
+        
+        /* Fight Screen */
+        .fight-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(to bottom, #1a3a5a, #0a1a2a);
+        }
+        
+        .health-bar-container {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .health-bar {
+            flex: 1;
+            background: #333;
+            height: 30px;
+            border: 2px solid #fff;
+            position: relative;
+        }
+        
+        .health-fill {
+            background: #ff0000;
+            height: 100%;
+            width: 80%;
+        }
+        
+        .health-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        .fighter {
+            position: absolute;
+            bottom: 100px;
+            width: 80px;
+            height: 150px;
+            background: #444;
+            border: 2px solid #fff;
+        }
+        
+        .player-fighter {
+            left: 150px;
+            background: linear-gradient(135deg, #2a4a6a, #1a2a3a);
+        }
+        
+        .opponent-fighter {
+            right: 150px;
+            background: linear-gradient(135deg, #6a2a2a, #3a1a1a);
+        }
+        
+        .ground {
+            position: absolute;
+            bottom: 80px;
+            width: 100%;
+            height: 3px;
+            background: #666;
+        }
+        
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+        
+        /* Left side - Movement wheel */
+        .movement-wheel {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border: 3px solid #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        
+        .wheel-btn {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: #444;
+            border: 2px solid #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #ff6b00;
+        }
+        
+        .wheel-up {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .wheel-down {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .wheel-left {
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .wheel-right {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        /* Right side - Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            background: #444;
+            border: 3px solid #666;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #ff6b00;
+            cursor: pointer;
+        }
+        
+        .action-btn:active {
+            background: #555;
+            border-color: #ff6b00;
+        }
+        
+        .btn-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+        
+        .btn-label {
+            font-size: 8px;
+            color: #999;
+        }
+        
+        /* Inventory/Shop */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 80px 30px 30px 30px;
+        }
+        
+        .item-card {
+            background: #333;
+            border: 2px solid #666;
+            padding: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .item-icon {
+            width: 50px;
+            height: 50px;
+            background: #444;
+            border: 2px solid #ff6b00;
+            margin: 0 auto;
+        }
+        
+        .item-name {
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        .item-price {
+            color: #ffd700;
+            font-size: 11px;
+        }
+        
+        .shop-header {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b00;
+        }
+        
+        .coins-display {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            background: #333;
+            padding: 10px 20px;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+        }
+        
+        /* Weapon/Magic Selection */
+        .loadout-container {
+            padding: 80px 30px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .loadout-slot {
+            width: 130px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .slot-label {
+            font-size: 13px;
+            color: #ff6b00;
+            font-weight: bold;
+        }
+        
+        .slot-box {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            border: 3px solid #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .equipped-item {
+            width: 70px;
+            height: 70px;
+            background: #ff6b00;
+            border: 2px solid #fff;
+        }
+        
+        /* Round indicator */
+        .round-indicator {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .round-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #333;
+            border: 2px solid #666;
+        }
+        
+        .round-won {
+            background: #ff6b00;
+            border-color: #ff6b00;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: #333;
+            border: 2px solid #666;
+            cursor: pointer;
+        }
+        
+        .tab.active {
+            background: #ff6b00;
+            border-color: #ff6b00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shadow Fight 2 - Game Wireframes</h1>
+        
+        <div class="wireframe-grid">
+            <!-- Main Menu -->
+            <div class="wireframe">
+                <div class="wireframe-title">Main Menu</div>
+                <div class="screen">
+                    <div class="menu-title">SHADOW FIGHT</div>
+                    <div class="menu-buttons">
+                        <div class="button">PLAY</div>
+                        <div class="button">SHOP</div>
+                        <div class="button">INVENTORY</div>
+                        <div class="button">CONTROLS</div>
+                        <div class="button">SETTINGS</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Map Screen -->
+            <div class="wireframe">
+                <div class="wireframe-title">Map / Level Selection</div>
+                <div class="screen">
+                    <div class="map-container">
+                        <div class="map-path"></div>
+                        <div class="map-node" style="left: 10%; top: 50%;">1</div>
+                        <div class="map-node" style="left: 30%; top: 40%;">2</div>
+                        <div class="map-node" style="left: 50%; top: 55%;">3</div>
+                        <div class="map-node" style="left: 70%; top: 45%;">4</div>
+                        <div class="map-node map-boss" style="left: 85%; top: 50%;">BOSS</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fight Screen -->
+            <div class="wireframe">
+                <div class="wireframe-title">Fight Screen</div>
+                <div class="screen">
+                    <div class="fight-container">
+                        <div class="health-bar-container">
+                            <div class="health-bar">
+                                <div class="health-fill"></div>
+                                <div class="health-label">PLAYER: 800/1000</div>
+                            </div>
+                            <div class="health-bar">
+                                <div class="health-fill" style="width: 60%;"></div>
+                                <div class="health-label">OPPONENT: 600/1000</div>
+                            </div>
+                        </div>
+                        
+                        <div class="round-indicator">
+                            <div class="round-dot round-won"></div>
+                            <div class="round-dot"></div>
+                            <div class="round-dot"></div>
+                        </div>
+                        
+                        <div class="fighter player-fighter"></div>
+                        <div class="fighter opponent-fighter"></div>
+                        <div class="ground"></div>
+                        
+                        <div class="controls">
+                            <!-- Left side - Movement wheel -->
+                            <div class="movement-wheel">
+                                <div class="wheel-btn wheel-up">↑</div>
+                                <div class="wheel-btn wheel-down">↓</div>
+                                <div class="wheel-btn wheel-left">←</div>
+                                <div class="wheel-btn wheel-right">→</div>
+                                <div class="wheel-center">MOVE</div>
+                            </div>
+                            
+                            <!-- Right side - Action buttons -->
+                            <div class="action-buttons">
+                                <div class="button-group">
+                                    <div class="action-btn">
+                                        <div class="btn-icon">👊</div>
+                                        <div>PUNCH</div>
+                                        <div class="btn-label">Z</div>
+                                    </div>
+                                </div>
+                                <div class="button-group">
+                                    <div class="action-btn">
+                                        <div class="btn-icon">🦵</div>
+                                        <div>KICK</div>
+                                        <div class="btn-label">X</div>
+                                    </div>
+                                </div>
+                                <div class="button-group">
+                                    <div class="action-btn">
+                                        <div class="btn-icon">🎯</div>
+                                        <div>RANGED</div>
+                                        <div class="btn-label">C</div>
+                                    </div>
+                                </div>
+                                <div class="button-group">
+                                    <div class="action-btn">
+                                        <div class="btn-icon">✨</div>
+                                        <div>MAGIC</div>
+                                        <div class="btn-label">V</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Shop Screen -->
+            <div class="wireframe">
+                <div class="wireframe-title">Shop</div>
+                <div class="screen">
+                    <div class="shop-header">WEAPON SHOP</div>
+                    <div class="coins-display">💰 5,000</div>
+                    <div class="tabs">
+                        <div class="tab active">Weapons</div>
+                        <div class="tab">Ranged</div>
+                        <div class="tab">Magic</div>
+                    </div>
+                    <div class="shop-grid">
+                        <div class="item-card">
+                            <div class="item-icon"></div>
+                            <div class="item-name">Sword</div>
+                            <div class="item-price">500 coins</div>
+                            <div class="button" style="padding: 8px;">BUY</div>
+                        </div>
+                        <div class="item-card">
+                            <div class="item-icon"></div>
+                            <div class="item-name">Nunchaku</div>
+                            <div class="item-price">800 coins</div>
+                            <div class="button" style="padding: 8px;">BUY</div>
+                        </div>
+                        <div class="item-card">
+                            <div class="item-icon"></div>
+                            <div class="item-name">Staff</div>
+                            <div class="item-price">1,200 coins</div>
+                            <div class="button" style="padding: 8px;">BUY</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Inventory/Loadout Screen -->
+            <div class="wireframe">
+                <div class="wireframe-title">Inventory / Loadout</div>
+                <div class="screen">
+                    <div class="shop-header">EQUIP LOADOUT</div>
+                    <div class="loadout-container">
+                        <div class="loadout-slot">
+                            <div class="slot-label">WEAPON</div>
+                            <div class="slot-box">
+                                <div class="equipped-item"></div>
+                            </div>
+                            <div style="font-size: 12px;">Sword</div>
+                        </div>
+                        <div class="loadout-slot">
+                            <div class="slot-label">RANGED</div>
+                            <div class="slot-box">
+                                <div class="equipped-item"></div>
+                            </div>
+                            <div style="font-size: 12px;">Shuriken</div>
+                        </div>
+                        <div class="loadout-slot">
+                            <div class="slot-label">MAGIC</div>
+                            <div class="slot-box">
+                                <div class="equipped-item"></div>
+                            </div>
+                            <div style="font-size: 12px;">Fireball</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Victory/Defeat Screen -->
+            <div class="wireframe">
+                <div class="wireframe-title">Victory / Defeat Screen</div>
+                <div class="screen">
+                    <div style="text-align: center; margin-top: 100px;">
+                        <div style="font-size: 72px; font-weight: bold; color: #ff6b00; margin-bottom: 40px;">VICTORY!</div>
+                        <div style="font-size: 24px; margin-bottom: 20px;">+500 XP</div>
+                        <div style="font-size: 24px; margin-bottom: 40px;">+300 Coins</div>
+                        <div style="display: flex; gap: 20px; justify-content: center; margin-top: 60px;">
+                            <div class="button" style="width: 200px;">CONTINUE</div>
+                            <div class="button" style="width: 200px;">MENU</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Controls Screen -->
+            <div class="wireframe">
+                <div class="wireframe-title">Controls Screen</div>
+                <div class="screen">
+                    <div class="shop-header">CONTROLS & COMBOS</div>
+                    <div style="padding: 80px 40px; display: flex; flex-direction: column; gap: 40px;">
+                        <!-- Controls Visual -->
+                        <div style="display: flex; justify-content: space-around; align-items: center;">
+                            <!-- Movement Wheel -->
+                            <div style="text-align: center;">
+                                <div style="font-size: 18px; color: #ff6b00; margin-bottom: 15px; font-weight: bold;">MOVEMENT</div>
+                                <div class="movement-wheel" style="position: relative; margin: 0 auto;">
+                                    <div class="wheel-btn wheel-up">↑</div>
+                                    <div class="wheel-btn wheel-down">↓</div>
+                                    <div class="wheel-btn wheel-left">←</div>
+                                    <div class="wheel-btn wheel-right">→</div>
+                                    <div class="wheel-center">MOVE</div>
+                                </div>
+                                <div style="margin-top: 10px; font-size: 12px; color: #999;">
+                                    ← → Move | ↑ Jump | ↓ Crouch
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div style="text-align: center;">
+                                <div style="font-size: 18px; color: #ff6b00; margin-bottom: 15px; font-weight: bold;">ACTIONS</div>
+                                <div style="display: flex; gap: 15px; justify-content: center;">
+                                    <div style="text-align: center;">
+                                        <div class="action-btn">
+                                            <div class="btn-icon">👊</div>
+                                            <div>PUNCH</div>
+                                            <div class="btn-label">Z</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div class="action-btn">
+                                            <div class="btn-icon">🦵</div>
+                                            <div>KICK</div>
+                                            <div class="btn-label">X</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div class="action-btn">
+                                            <div class="btn-icon">🎯</div>
+                                            <div>RANGED</div>
+                                            <div class="btn-label">C</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div class="action-btn">
+                                            <div class="btn-icon">✨</div>
+                                            <div>MAGIC</div>
+                                            <div class="btn-label">V</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Combo List -->
+                        <div style="background: #333; border: 2px solid #666; padding: 20px; border-radius: 5px;">
+                            <div style="font-size: 18px; color: #ff6b00; margin-bottom: 15px; font-weight: bold; text-align: center;">COMBO MOVES</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px;">
+                                <div style="background: #2a2a2a; padding: 10px; border: 1px solid #555;">
+                                    <strong style="color: #ff6b00;">Basic Combo:</strong> Z → Z → X
+                                </div>
+                                <div style="background: #2a2a2a; padding: 10px; border: 1px solid #555;">
+                                    <strong style="color: #ff6b00;">Power Strike:</strong> X → X → Z
+                                </div>
+                                <div style="background: #2a2a2a; padding: 10px; border: 1px solid #555;">
+                                    <strong style="color: #ff6b00;">Jump Attack:</strong> ↑ → Z or X
+                                </div>
+                                <div style="background: #2a2a2a; padding: 10px; border: 1px solid #555;">
+                                    <strong style="color: #ff6b00;">Low Sweep:</strong> ↓ → X
+                                </div>
+                                <div style="background: #2a2a2a; padding: 10px; border: 1px solid #555;">
+                                    <strong style="color: #ff6b00;">Critical Strike:</strong> → → Z
+                                </div>
+                                <div style="background: #2a2a2a; padding: 10px; border: 1px solid #555;">
+                                    <strong style="color: #ff6b00;">Super Combo:</strong> Z → X → Z → X
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Back Button -->
+                        <div style="text-align: center;">
+                            <div class="button" style="width: 200px; margin: 0 auto;">BACK TO MENU</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="background: #2a2a2a; padding: 20px; border-radius: 8px; border: 2px solid #444;">
+            <h2 style="color: #ff6b00; margin-bottom: 15px;">Controls Summary</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div><strong>Movement Wheel:</strong> Move & Jump (Arrow Keys)</div>
+                <div><strong>Z (Punch Button):</strong> Punch attack</div>
+                <div><strong>X (Kick Button):</strong> Kick attack</div>
+                <div><strong>C (Ranged Button):</strong> Use ranged weapon</div>
+                <div><strong>V (Magic Button):</strong> Cast magic spell</div>
+                <div><strong>Combos:</strong> Chain punch + kick attacks</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
