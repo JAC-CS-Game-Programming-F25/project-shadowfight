@@ -1,3 +1,7 @@
+# Project Description
+
+I will try and remake the game Shadow Fight 2. I grew up playing that game and always loved it so I thought it would be a nice project to try and make it myself.
+
 \*\*\*\* i edited this with ai to make my ideas more clear and comprehensive
 
 # Final Project - Shadow Fight 2 Replica
@@ -486,10 +490,3 @@ This project will be considered successful if it achieves:
 8. ✅ Minimum 3 different weapons and 2 opponent types
 9. ✅ Stable performance (60 FPS target)
 10. ✅ Complete game loop from menu to victory
-
----
-
-**Student Name**: [Your Name]  
-**Course**: 420-5P6 Game Programming  
-**Instructor**: Vik  
-**Submission Date**: [Date]
