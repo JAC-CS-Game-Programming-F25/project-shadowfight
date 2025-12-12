@@ -49,8 +49,23 @@ It has different sounds for the female characetrs, the male characters and the s
 i found location sprites on this website :
 [link] [https://www.spriters-resource.com/mobile/shadowfight2/asset/144593/]
 
-## Chach
+## Equipement sprites
 
-I am trying to find sprites of the
+It is very hard to find sprites for the equipement since shadow fight 2 is apparently based of
+i would have to make the sprite programmatically considering each weapon has a different move.
+I think I will just start and then i will see how it goes or what i come up with
 
-### Nice to have that i thought about during implementation
+```js
+// this is my idea of a constructor for the PlayerShadow figure class at first
+constructor(x, y) {
+        this.x = x;
+        this.x = y;
+        this.state = "idle";
+        this.equipment = null;
+        this.facing = 1; // 1 = right, -1 = left
+        this.animationFrame = 0;
+        this.animations = []; // will store all the possible animations once the whole equipement has been chose (might be passed in later too)
+    }
+```
+
+Continuing on what i built yesterday, i will start with the
