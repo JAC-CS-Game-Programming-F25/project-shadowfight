@@ -1,66 +1,31 @@
-const AttackType = {
-    None: "none",
-    Punch: "punch",
-    Kick: "kick",
-};
+import BlockState from "../../../states/PlayerStates/BlockState.js";
+import IdleState from "../../../states/PlayerStates/IdleState.js";
+import KickState from "../../../states/PlayerStates/KickState.js";
+import PunchState from "../../../states/PlayerStates/PunchState.js";
+import HitStunState from "../../../states/PlayerStates/StunState.js";
+import WalkState from "../../../states/PlayerStates/WalkState.js";
+import ShadowFigure from "../ShadowFigure.js";
 
-class PlayerShadowFigure {
+export default class PlayerShadowFigure extends ShadowFigure {
     constructor(x, y) {
-        this.x = x;
-        this.x = y;
-        this.state = "idle";
-        this.equipment = null;
-        this.facing = 1; // 1 = right, -1 = left
-        this.animationFrame = 0;
-        this.animations = []; // will store all the possible animations once the whole equipement has been chose (might be passed in later too)
+        super(x, y);
+
+        // Player-specific properties
+        this.moveSpeed = 150;
+        this.attackDamage = 10;
     }
 
     /**
-     * Method that will attribute a weapon to the
-     * @param {} weapon: the weapon object.
+     * Initialize state machine with player states
      */
-    equipWeapon(weapon) {
-        //
-    }
+    initializeStateMachine() {
+        this.stateMachine.add("idle", new IdleState(this));
+        this.stateMachine.add("walk", new WalkState(this));
+        this.stateMachine.add("punch", new PunchState(this));
+        this.stateMachine.add("kick", new KickState(this));
+        this.stateMachine.add("block", new BlockState(this));
+        this.stateMachine.add("hit_stun", new HitStunState(this));
 
-    equipArmor(armor) {
-        // this is what is called to change the armor of the shadow fighter
-    }
-
-    /**
-     *
-     * @param {AttackType} type : the attack type
-     * @param {number} facing : the direction the player was facing when the move was made
-     * @param {combination}:
-     */
-    attack(type, facing) {
-        switch (type) {
-            case AttackType.None:
-                // this is the case where the player is idle and is "breathing"
-                // the motion slightly extending and retracting the player vertically.
-
-                break;
-            case AttackType.Punch:
-                // this is the case where the player is idle and is "breathing"
-                // the motion slightly extending and retracting the player vertically.
-
-                break;
-            case AttackType.Kick:
-                // this is the case where the player is kicking
-
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    draw(ctx) {
-        // Draw body parts
-        this.drawBody(ctx);
-        // Draw equipment on top
-        if (this.equipment) {
-            this.equipment.draw(ctx, this);
-        }
+        this.stateMachine.change("idle");
     }
 }
