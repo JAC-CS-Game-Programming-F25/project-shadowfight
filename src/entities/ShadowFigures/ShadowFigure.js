@@ -8,6 +8,12 @@ export default class ShadowFigure {
         this.velocity = new Vector(0, 0);
         this.facing = 1; // 1 = right, -1 = left
 
+        // Physics properties
+        this.gravity = 1200;
+        this.jumpForce = -500;
+        this.isGrounded = true;
+        this.groundY = y;
+
         // Combat properties
         this.health = 100;
         this.maxHealth = 100;
@@ -23,7 +29,7 @@ export default class ShadowFigure {
         this.frameDelay = 0.1; // seconds per frame
 
         // Hitboxes
-        this.hurtbox = new Hitbox(x - 20, y - 80, 40, 80, "red");
+        this.hurtbox = new Hitbox(x - 50, y - 200, 100, 200, "red");
         this.attackHitbox = null;
 
         // Initialize body parts (skeleton)
@@ -35,23 +41,111 @@ export default class ShadowFigure {
     }
 
     initializeBodyParts() {
+        // Scale factor - makes character bigger
+        const scale = 2.5;
+
+        // Human proportions (head = 1 unit, body = 7-8 heads tall)
+        const headSize = 12 * scale;
+        const torsoWidth = 20 * scale;
+        const torsoHeight = 40 * scale;
+        const upperArmWidth = 6 * scale;
+        const upperArmHeight = 24 * scale;
+        const lowerArmWidth = 5 * scale;
+        const lowerArmHeight = 22 * scale;
+        const upperLegWidth = 8 * scale;
+        const upperLegHeight = 28 * scale;
+        const lowerLegWidth = 7 * scale;
+        const lowerLegHeight = 26 * scale;
+
+        // Calculate positions from ground up (y=0 is at character's feet)
+        const legTop = -(upperLegHeight + lowerLegHeight);
+        const torsoTop = legTop - torsoHeight;
+        const headY = torsoTop - headSize;
+        const shoulderY = legTop - 5; // Shoulders slightly below torso top
+
         this.bodyParts = {
-            head: { x: 0, y: -60, radius: 12 },
-            torso: { x: 0, y: -35, width: 24, height: 35 },
+            // Head
+            head: {
+                x: 0,
+                y: headY,
+                radius: headSize,
+            },
 
-            // Arms
-            upperArmR: { x: 12, y: -45, width: 6, height: 20, rotation: 0 },
-            lowerArmR: { x: 12, y: -25, width: 5, height: 18, rotation: 0 },
+            // Torso
+            torso: {
+                x: 0,
+                y: torsoTop,
+                width: torsoWidth,
+                height: torsoHeight,
+            },
 
-            upperArmL: { x: -12, y: -45, width: 6, height: 20, rotation: 0 },
-            lowerArmL: { x: -12, y: -25, width: 5, height: 18, rotation: 0 },
+            // Right Arm (attached at shoulder)
+            upperArmR: {
+                x: torsoWidth / 2,
+                y: shoulderY,
+                width: upperArmWidth,
+                height: upperArmHeight,
+                rotation: 20,
+            },
+            lowerArmR: {
+                parentX: torsoWidth / 2,
+                parentY: shoulderY,
+                offsetY: upperArmHeight,
+                width: lowerArmWidth,
+                height: lowerArmHeight,
+                rotation: -10,
+            },
 
-            // Legs
-            upperLegR: { x: 8, y: -5, width: 8, height: 22, rotation: 0 },
-            lowerLegR: { x: 8, y: 17, width: 6, height: 20, rotation: 0 },
+            // Left Arm (attached at shoulder)
+            upperArmL: {
+                x: -torsoWidth / 2,
+                y: shoulderY,
+                width: upperArmWidth,
+                height: upperArmHeight,
+                rotation: 20,
+            },
+            lowerArmL: {
+                parentX: -torsoWidth / 2,
+                parentY: shoulderY,
+                offsetY: upperArmHeight,
+                width: lowerArmWidth,
+                height: lowerArmHeight,
+                rotation: -10,
+            },
 
-            upperLegL: { x: -8, y: -5, width: 8, height: 22, rotation: 0 },
-            lowerLegL: { x: -8, y: 17, width: 6, height: 20, rotation: 0 },
+            // Right Leg (starts at hip)
+            upperLegR: {
+                x: torsoWidth / 4,
+                y: legTop,
+                width: upperLegWidth,
+                height: upperLegHeight,
+                rotation: 0,
+            },
+            lowerLegR: {
+                parentX: torsoWidth / 4,
+                parentY: legTop,
+                offsetY: upperLegHeight,
+                width: lowerLegWidth,
+                height: lowerLegHeight,
+                rotation: 0,
+            },
+
+            // Left Leg (starts at hip)
+            upperLegL: {
+                x: -torsoWidth / 4,
+                y: legTop,
+                width: upperLegWidth,
+                height: upperLegHeight,
+                rotation: 0,
+            },
+            lowerLegL: {
+                parentX: -torsoWidth / 4,
+                parentY: legTop,
+                offsetY: upperLegHeight,
+                width: lowerLegWidth,
+                height: lowerLegHeight,
+                rotation: 0,
+            },
         };
 
         this.defaultPose = JSON.parse(JSON.stringify(this.bodyParts));
@@ -118,6 +212,22 @@ export default class ShadowFigure {
     update(dt) {
         this.stateMachine.update(dt);
 
+        // Apply gravity
+        if (!this.isGrounded) {
+            this.velocity.y += this.gravity * dt;
+        }
+
+        // Update position
+        this.position.x += this.velocity.x * dt;
+        this.position.y += this.velocity.y * dt;
+
+        // Ground collision
+        if (this.position.y >= this.groundY) {
+            this.position.y = this.groundY;
+            this.velocity.y = 0;
+            this.isGrounded = true;
+        }
+
         // Update animation frame
         this.frameTimer += dt;
         if (this.frameTimer >= this.frameDelay) {
@@ -125,8 +235,8 @@ export default class ShadowFigure {
             this.currentFrame++;
         }
 
-        // Update hurtbox position
-        this.hurtbox.set(this.position.x - 20, this.position.y - 80, 40, 80);
+        // Update hurtbox (bigger now)
+        this.hurtbox.set(this.position.x - 50, this.position.y - 200, 100, 200);
     }
 
     render(context) {
@@ -140,19 +250,17 @@ export default class ShadowFigure {
         context.shadowOffsetX = 2;
         context.shadowOffsetY = 2;
 
-        // Draw body parts (back to front)
-        this.drawBodyPart(context, "lowerLegL");
-        this.drawBodyPart(context, "upperLegL");
-        this.drawBodyPart(context, "lowerArmL");
-        this.drawBodyPart(context, "upperArmL");
+        // Draw back limbs first (left side when facing right)
+        this.drawLimb(context, "upperLegL", "lowerLegL");
+        this.drawLimb(context, "upperArmL", "lowerArmL");
 
+        // Draw torso and head
         this.drawBodyPart(context, "torso");
         this.drawBodyPart(context, "head");
 
-        this.drawBodyPart(context, "upperArmR");
-        this.drawBodyPart(context, "lowerArmR");
-        this.drawBodyPart(context, "upperLegR");
-        this.drawBodyPart(context, "lowerLegR");
+        // Draw front limbs (right side when facing right)
+        this.drawLimb(context, "upperArmR", "lowerArmR");
+        this.drawLimb(context, "upperLegR", "lowerLegR");
 
         // Draw weapon if equipped
         if (this.weapon) {
@@ -160,10 +268,54 @@ export default class ShadowFigure {
         }
 
         context.restore();
+    }
 
-        // Draw hitboxes for debugging
-        // this.hurtbox.render(context);
-        // if (this.attackHitbox) this.attackHitbox.render(context);
+    drawLimb(context, upperName, lowerName) {
+        const upper = this.bodyParts[upperName];
+        const lower = this.bodyParts[lowerName];
+
+        context.save();
+
+        // Draw upper part
+        context.fillStyle = "#000000";
+        context.translate(upper.x, upper.y);
+        context.rotate((upper.rotation * Math.PI) / 180);
+
+        // Upper limb shape
+        context.beginPath();
+        context.moveTo(-upper.width / 2, 0);
+        context.lineTo(-upper.width / 3, upper.height);
+        context.lineTo(upper.width / 3, upper.height);
+        context.lineTo(upper.width / 2, 0);
+        context.closePath();
+        context.fill();
+
+        // Draw lower part (at end of upper)
+        context.translate(0, upper.height);
+        context.rotate((lower.rotation * Math.PI) / 180);
+
+        context.beginPath();
+        context.moveTo(-lower.width / 2, 0);
+        context.lineTo(-lower.width / 3, lower.height);
+
+        // Add foot/hand detail for lower limbs
+        if (lowerName.includes("Leg")) {
+            // Foot
+            context.lineTo(-lower.width / 2, lower.height);
+            context.lineTo(lower.width / 2, lower.height);
+            context.lineTo(lower.width * 0.8, lower.height * 0.9);
+        } else {
+            // Hand
+            context.lineTo(-lower.width / 4, lower.height);
+            context.lineTo(lower.width / 4, lower.height);
+        }
+
+        context.lineTo(lower.width / 3, lower.height);
+        context.lineTo(lower.width / 2, 0);
+        context.closePath();
+        context.fill();
+
+        context.restore();
     }
 
     drawBodyPart(context, partName) {
@@ -173,16 +325,58 @@ export default class ShadowFigure {
         context.save();
         context.fillStyle = "#000000";
 
-        if (part.radius) {
+        if (partName === "head") {
+            // Head
             context.beginPath();
             context.arc(part.x, part.y, part.radius, 0, Math.PI * 2);
             context.fill();
-        } else {
+
+            // Helmet/mask detail
+            context.fillStyle = "#1a1a1a";
+            context.beginPath();
+            context.arc(
+                part.x,
+                part.y - 2,
+                part.radius * 0.6,
+                0,
+                Math.PI,
+                true
+            );
+            context.fill();
+        } else if (partName === "torso") {
+            // Muscular torso
             context.translate(part.x, part.y);
-            if (part.rotation) {
-                context.rotate((part.rotation * Math.PI) / 180);
-            }
-            context.fillRect(-part.width / 2, 0, part.width, part.height);
+
+            context.beginPath();
+            context.moveTo(-part.width / 2, 0);
+            context.bezierCurveTo(
+                -part.width / 2,
+                part.height * 0.3,
+                -part.width / 3,
+                part.height * 0.7,
+                -part.width / 3,
+                part.height
+            );
+            context.lineTo(part.width / 3, part.height);
+            context.bezierCurveTo(
+                part.width / 3,
+                part.height * 0.7,
+                part.width / 2,
+                part.height * 0.3,
+                part.width / 2,
+                0
+            );
+            context.closePath();
+            context.fill();
+
+            // Chest detail
+            context.fillStyle = "#1a1a1a";
+            context.fillRect(
+                -part.width / 4,
+                part.height * 0.2,
+                part.width / 2,
+                3
+            );
         }
 
         context.restore();
@@ -202,6 +396,13 @@ export default class ShadowFigure {
         context.fillRect(-8, 38, 16, 4);
 
         context.restore();
+    }
+
+    jump() {
+        if (this.isGrounded) {
+            this.velocity.y = this.jumpForce;
+            this.isGrounded = false;
+        }
     }
 
     attack(attackType) {
