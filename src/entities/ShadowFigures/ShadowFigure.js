@@ -1,12 +1,20 @@
 import StateMachine from "../../../lib/StateMachine.js";
 import Hitbox from "../../../lib/Hitbox.js";
 import Vector from "../../../lib/Vector.js";
+import GameEntity from "../GameEntity.js";
+import ImageName from "../../enums/ImageName.js";
 
-export default class ShadowFigure {
+export default class ShadowFigure extends GameEntity {
     constructor(x, y) {
+        super();
         this.position = new Vector(x, y);
         this.velocity = new Vector(0, 0);
         this.facing = 1; // 1 = right, -1 = left
+
+        this.sprites = loadPlayerSprites(
+            images.get(ImageName.Shadow),
+            smallSpriteConfig
+        );
 
         // Physics properties
         this.gravity = 1200;
@@ -26,7 +34,7 @@ export default class ShadowFigure {
         // Animation
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 0.1; // seconds per frame
+        this.frameDelay = 0.1;
 
         // Hitboxes
         this.hurtbox = new Hitbox(x - 50, y - 200, 100, 200, "red");
@@ -149,10 +157,6 @@ export default class ShadowFigure {
         };
 
         this.defaultPose = JSON.parse(JSON.stringify(this.bodyParts));
-    }
-
-    initializeStateMachine() {
-        // Override in child classes
     }
 
     setPose(poseName) {

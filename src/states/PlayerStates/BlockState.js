@@ -1,16 +1,15 @@
 import State from "../../../lib/State.js";
+import PlayerStateName from "../../enums/PlayerStateName.js";
 import { input, keys } from "../../globals.js";
 
 export default class BlockState extends State {
     constructor(fighter) {
         super();
         this.fighter = fighter;
+        // set the animation
     }
 
-    enter() {
-        this.fighter.setPose("block");
-        this.fighter.clearAttackHitbox();
-    }
+    enter() {}
 
     update(dt) {
         // Hold block while key is pressed

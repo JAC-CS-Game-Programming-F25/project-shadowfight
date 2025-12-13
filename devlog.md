@@ -105,7 +105,13 @@ _right_ :
 
 #### Weapon
 
+for the weapons i found this :
+[link] [https://www.freepik.com/free-photos-vectors/knife-silhouette#uuid=919fb144-d0d3-44d5-bf9d-e0250c4a0c7e]
+I will use this as the sprite sheet for teh swords because it is impossible to find the sprites for the game i want to replicate.
+
 #### RangedWeapon
+
+i found a sprite sheet for charcters that have moves similar to the ones in shadow fight 2. Althought they don't look like the characters i was trying to make, and in those sprite sheets
 
 #### Magic
 
@@ -119,6 +125,8 @@ This class will carry the magic object. it will have a damage, lifetime, states
 
 This branch will have the logic for the movements of the players and the equipement
 
+I am taking code from the mario assignment as a boilerplate for the PlayerShadowFigure class.
+
 # Branch 3 - Damage and hitboxes Implementation
 
 This branch will take care of the
@@ -128,3 +136,14 @@ This branch will take care of the
 # Branch 5 - Enemy AI implementation
 
 I want to do the weapons i want to make 3 weapons that have a very simple move. like the samurai blade, the one where the the player does a sort of tornado attack, (repeated animation frame ) and another simple one but that has an enchatement like ppision or smt. then for the armors, just choose 3 of them (1 has enchantement). for the ranged weapons, i need one that is trown straight, one that spllits in 3 and one that is trown from under(again one with an enchatement) eah has a coin value and the same level structure as the game i the sense that the armor has a shilding level the weapon has a
+
+**_AI Usage_**
+I used AI to try and figure out how to find the sprites for the shadow fighter. this was more complicated than anticipated due to the fact that the shadow fight 2 game does not use sprites, rather it uses a skeleton mesh that uses articulation joints to make the player figure. I also tried to find the limbs but that didnt work.
+
+## change of plans!!!
+
+I will be using sprites from another game for the characters because time tells me that i wont have time to finish if i don't do so and that it would be pretty much impossible to make the sprites for my game otherwise. So i will try tthis approach instead.
+
+i will also remove the equipement selections and replace that with a player selection maybe. (I say maybe because i might just take that all off since i have the different enemies anyway.)
+
+I am trying to use ai to generate the sprite sheets for the game since itis almost impossible for me to find teh actual sprites.

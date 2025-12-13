@@ -1,11 +1,43 @@
 {
-	"images": [
+    "images": [
+        {
+            "name": "shadow",
+            "path": "../assets/images/CharacterIcons/Shadow.png",
+            "width": 200,
+            "height": 200
+        },
+        {
+            "name": "dojo",
+            "path": "../assets/images/Backgrounds/Dojo.png"
+        }
+    ],
+    "fonts": [],
 
-	],
-	"fonts": [
-
-	],
-	"sounds": [
-		
-	]
+    "sounds": [
+        {
+            "name": "m_punch",
+            "path": "../assets/sounds/MaleSounds/m_punch.wav",
+            "size": 2,
+            "volume": 1
+        },
+        {
+            "name": "m_kick",
+            "path": "../assets/sounds/MaleSounds/m_kick.wav",
+            "size": 2,
+            "volume": 1
+        },
+        {
+            "name": "m_death",
+            "path": "../assets/sounds/MaleSounds/m_death.wav",
+            "size": 2,
+            "volume": 1
+        },
+        {
+            "name": "dojo",
+            "path": "../assets/sounds/Music/TrainingRoomMenu.mp3",
+            "size": 2,
+            "volume": 1,
+            "loop": true
+        }
+    ]
 }

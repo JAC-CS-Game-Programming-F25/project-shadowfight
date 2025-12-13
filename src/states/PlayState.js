@@ -1,11 +1,16 @@
 import State from "../../lib/State.js";
 import PlayerShadowFigure from "../entities/ShadowFigures/CharacterFigures/PlayerShadowFigure.js";
-import { context } from "../globals.js";
+import MusicName from "../enums/MusicName.js";
+import ImageName from "../enums/ImageName.js";
+import { context, sounds, images } from "../globals.js";
 
 export default class PlayState extends State {
     constructor() {
         super();
         this.context = context;
+        this.player = new PlayerShadowFigure(50, 150, 16, 24, this.map);
+        this.backgroundImage = images.get(ImageName.Dojo);
+        sounds.play(MusicName.Dojo);
     }
 
     enter() {
