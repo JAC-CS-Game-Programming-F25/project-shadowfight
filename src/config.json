@@ -9,6 +9,10 @@
         {
             "name": "dojo",
             "path": "../assets/images/Backgrounds/Dojo.png"
+        },
+        {
+            "name": "hero_reborn_map",
+            "path": "../assets/images/Backgrounds/herorebornmap.webp"
         }
     ],
     "fonts": [],
@@ -38,6 +42,12 @@
             "size": 2,
             "volume": 1,
             "loop": true
+        },
+        {
+            "name": "transition",
+            "path": "../assets/sounds/SoundEffects/transition.wav",
+            "size": 2,
+            "volume": 1
         }
     ]
 }

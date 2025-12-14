@@ -8,6 +8,7 @@ const MusicName = {
     F_kick: "f_kick", // female sounds
     F_Punch: "f_punch",
     F_block: "f_block",
+    Transition: "transition",
 };
 
 export default MusicName;

@@ -33,3 +33,39 @@ export const stateMachine = new StateMachine();
 export const timer = new Timer();
 export const input = new Input(canvas);
 export const sounds = new Sounds();
+
+// If true, render all hitboxes.
+export const DEBUG = false;
+
+/**
+ * The physics engine we're going to use for this game.
+ * We're not importing it anywhere because it is declared globally in index.html.
+ *
+ * @see https://brm.io/matter-js
+ */
+// @ts-ignore
+export const matter = Matter;
+
+/**
+ * The Matter.Engine module contains methods for creating and manipulating engines.
+ * An engine is a controller that manages updating the simulation of the world.
+ *
+ * @see https://brm.io/matter-js/docs/classes/Engine.html
+ */
+export const engine = matter.Engine.create({
+    /**
+     * Sleeping bodies do not detect collisions or move when at rest.
+     *
+     * @see https://brm.io/matter-js/demo/#sleeping
+     * @see https://brm.io/matter-js/docs/classes/Sleeping.html
+     */
+    enableSleeping: true,
+});
+
+/**
+ * The root Matter.Composite instance that will contain all bodies,
+ * constraints and other composites to be simulated by this engine.
+ *
+ * @see https://brm.io/matter-js/docs/classes/Engine.html#property_world
+ */
+export const world = engine.world;

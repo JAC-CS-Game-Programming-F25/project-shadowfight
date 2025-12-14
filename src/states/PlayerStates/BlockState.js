@@ -5,6 +5,8 @@ import { input, keys } from "../../globals.js";
 export default class BlockState extends State {
     constructor(fighter) {
         super();
+        this.animationFrames = [];
+        this.currentFrame = null;
         this.fighter = fighter;
         // set the animation
     }

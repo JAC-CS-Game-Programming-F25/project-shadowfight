@@ -146,4 +146,4 @@ I will be using sprites from another game for the characters because time tells 
 
 i will also remove the equipement selections and replace that with a player selection maybe. (I say maybe because i might just take that all off since i have the different enemies anyway.)
 
-I am trying to use ai to generate the sprite sheets for the game since itis almost impossible for me to find teh actual sprites.
+I am trying to use ai to generate the sprite sheets for the game since it is almost impossible for me to find teh actual sprites.
