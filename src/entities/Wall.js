@@ -4,25 +4,25 @@ import ImageName from "../enums/ImageName.js";
 import Rectangle from "./Rectangle.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, images } from "../globals.js";
 
-export default class Ground extends Rectangle {
-    static FLOOR = {
+export default class Wall extends Rectangle {
+    static Wall = {
         x: 0,
         y: 0,
         width: 70,
         height: 70,
     };
     static SPRITE_MEASUREMENTS = {
-        x: -CANVAS_WIDTH / 2,
-        y: CANVAS_HEIGHT - Ground.FLOOR.height,
-        width: CANVAS_WIDTH * 2,
-        height: Ground.FLOOR.height,
+        x: 0,
+        y: CANVAS_HEIGHT,
+        width: 16,
+        height: Ground.Wall.height,
     };
 
     /**
-     * The ground is a large Matter static body
+     * The  is a large Matter static body
      * where everything in the world sits upon.
      */
-    constructor() {
+    constructor(isRightWall = true) {
         super(
             Ground.SPRITE_MEASUREMENTS.x,
             Ground.SPRITE_MEASUREMENTS.y,
@@ -40,10 +40,10 @@ export default class Ground extends Rectangle {
     render() {
         super.render();
 
-        for (let i = 0; i < CANVAS_WIDTH / Ground.FLOOR.width; i++) {
+        for (let i = 0; i < CANVAS_WIDTH / Ground.Wall.width; i++) {
             this.sprites[0].render(
-                i * Ground.FLOOR.width,
-                CANVAS_HEIGHT - Ground.FLOOR.height
+                i * Ground.Wall.width,
+                CANVAS_HEIGHT - Ground.Wall.height
             );
         }
     }
@@ -52,10 +52,10 @@ export default class Ground extends Rectangle {
         return [
             new Sprite(
                 images.get(ImageName.Dojo),
-                Ground.FLOOR.x,
-                Ground.FLOOR.y,
-                Ground.FLOOR.width,
-                Ground.FLOOR.height
+                Ground.Wall.x,
+                Ground.Wall.y,
+                Ground.Wall.width,
+                Ground.Wall.height
             ),
         ];
     }

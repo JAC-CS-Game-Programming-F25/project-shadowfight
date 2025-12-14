@@ -21,13 +21,14 @@ export default class TransitionState extends State {
         this.currentState = null;
     }
 
-    enter(parameters) {
+    enter(parameters = {}) {
         this.fromState = parameters.fromState;
         this.toState = parameters.toState;
         this.toStateEnterParameters = parameters.toStateEnterParameters;
         this.currentState = this.fromState;
+        console.log("Entered transition state");
         this.transitionParameters = { alpha: 0 };
-        sounds.play(MusicName.Transition); // play the transition music to the map (later we can pass this a one of the parameters maybe?)
+        sounds.play(parameters.transitionMusic); // play the transition music to the map (later we can pass this a one of the parameters maybe?)
         this.fadeOut();
     }
 

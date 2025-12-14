@@ -11,22 +11,41 @@ import {
     sounds,
     stateMachine,
     timer,
+    matter,
 } from "../../globals.js";
 import Input from "../../../lib/Input.js";
+import Ground from "../../entities/Ground.js";
+import PlayerShadowFigure from "../../entities/ShadowFigures/CharacterFigures/PlayerShadowFigure.js";
 
 export default class TitleScreenState extends State {
     constructor() {
         super();
-        this.fighter;
         this.context = context;
+        this.player = null;
+        this.ground = null;
+        this.leftWall = null;
+        this.rightWall = null;
     }
 
     enter(parameters = {}) {
         sounds.play(MusicName.Dojo);
+        this.engine = matter.Engine.create({
+            gravity: { x: 0, y: 1 },
+        });
+
+        // Create ground object at bottom of screen
+        this.ground = new Ground(
+            CANVAS_WIDTH / 2, // x position (center)
+            640, // y position (where floor starts)
+            CANVAS_WIDTH, // width
+            80, // height
+            this.engine
+        );
     }
 
     exit() {
         sounds.stop(MusicName.Dojo);
+        console.log("Music stoped in title screen state");
     }
 
     update(dt) {
@@ -37,7 +56,11 @@ export default class TitleScreenState extends State {
             stateMachine.change(GameStateName.Transition, {
                 fromState: this,
                 toState: stateMachine.states[GameStateName.HeroRebornMap],
+                transitionMusic: MusicName.Transition,
             });
+
+            // debug statement
+            console.log("Not exited");
         }
     }
     render() {
@@ -48,7 +71,7 @@ export default class TitleScreenState extends State {
             this.ground.render();
         }
 
-        // Draw controls reminder
+        // Draw controls
         this.context.fillStyle = "white";
         this.context.font = "20px times new roman";
         this.context.fillText(

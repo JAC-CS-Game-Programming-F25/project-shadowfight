@@ -11,6 +11,10 @@
             "path": "../assets/images/Backgrounds/Dojo.png"
         },
         {
+            "name": "dojo_floor",
+            "path": "../assets/images/Backgrounds/floor.png"
+        },
+        {
             "name": "hero_reborn_map",
             "path": "../assets/images/Backgrounds/herorebornmap.webp"
         }
@@ -36,6 +40,7 @@
             "size": 2,
             "volume": 1
         },
+
         {
             "name": "dojo",
             "path": "../assets/sounds/Music/TrainingRoomMenu.mp3",
@@ -43,6 +48,14 @@
             "volume": 1,
             "loop": true
         },
+        {
+            "name": "forest",
+            "path": "../assets/sounds/Music/ForestMusic.mp3",
+            "size": 2,
+            "volume": 1,
+            "loop": true
+        },
+
         {
             "name": "transition",
             "path": "../assets/sounds/SoundEffects/transition.wav",

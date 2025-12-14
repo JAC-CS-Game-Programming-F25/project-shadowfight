@@ -138,7 +138,7 @@ This branch will take care of the
 I want to do the weapons i want to make 3 weapons that have a very simple move. like the samurai blade, the one where the the player does a sort of tornado attack, (repeated animation frame ) and another simple one but that has an enchatement like ppision or smt. then for the armors, just choose 3 of them (1 has enchantement). for the ranged weapons, i need one that is trown straight, one that spllits in 3 and one that is trown from under(again one with an enchatement) eah has a coin value and the same level structure as the game i the sense that the armor has a shilding level the weapon has a
 
 **_AI Usage_**
-I used AI to try and figure out how to find the sprites for the shadow fighter. this was more complicated than anticipated due to the fact that the shadow fight 2 game does not use sprites, rather it uses a skeleton mesh that uses articulation joints to make the player figure. I also tried to find the limbs but that didnt work.
+I used AI to try and figure out how to find the sprites for the shadow fighter. this was more complicated than anticipated due to the fact that the shadow fight 2 game does not use sprites, rather it uses a skeleton mesh that uses articulation joints to make the player figure. I also tried to find the limbs but that didn't work.
 
 ## change of plans!!!
 
@@ -147,3 +147,24 @@ I will be using sprites from another game for the characters because time tells 
 i will also remove the equipement selections and replace that with a player selection maybe. (I say maybe because i might just take that all off since i have the different enemies anyway.)
 
 I am trying to use ai to generate the sprite sheets for the game since it is almost impossible for me to find teh actual sprites.
+
+## Sprite finding progress
+
+I found a video that has the background sprites for the locations of the game:
+[link] [https://www.youtube.com/watch?v=VHM_Jn8bpAk]
+He made a drive with the folder to extract the hidden files of the game
+[link] [https://drive.google.com/file/d/18y4fa0QGG0zKBomZBC2mj-4gWMCogZGQ/view]
+
+i m extracting the hidden files i have so that i can try and find the dojo's floor srpite sheet but if i can't find it, i will just have to use another floor which isnt a big deal really.
+
+# bug and fix
+
+I got a bug where i couldnt enter the transition state. i got that fixed however the music doesnt stop so i have to figure out where to stop it so that it stops properly.
+
+## Next steps
+
+I am going ot attemp to remake the player and set up every state. I will use the reborn hero map as a sort of selection state for the battles then in another branch i will implement the logic to create the player in the match and the the battle.
+
+## major change:
+
+If i can't get a player to work properly, i will just make a punching bag attached to a string like in the dojo and have a score. Making certain move combinations already will have a damage value associated with them, so i will just do a scoring system with a health bar for the punching bag and when it is at 0 uit upgrades the level of the player or something along those lines.
