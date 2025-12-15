@@ -1,22 +1,78 @@
 {
     "images": [
         {
-            "name": "shadow",
+            "name": "shadow_icon",
             "path": "../assets/images/CharacterIcons/Shadow.png",
             "width": 200,
             "height": 200
+        },
+        {
+            "name": "lynx",
+            "path": "../assets/images/CharacterIcons/Lynx.png",
+            "width": 200,
+            "height": 200
+        },
+        {
+            "name": "ninja",
+            "path": "../assets/images/CharacterIcons/Ninja.png",
+            "width": 200,
+            "height": 200
+        },
+        {
+            "name": "sensei",
+            "path": "../assets/images/CharacterIcons/Sensei.png",
+            "width": 200,
+            "height": 200
+        },
+        {
+            "name": "shadow_sprites",
+            "path": "../assets/images/SpriteSheets/Shadow1.png",
+            "width": 813,
+            "height": 2515
         },
         {
             "name": "dojo",
             "path": "../assets/images/Backgrounds/Dojo.png"
         },
         {
-            "name": "dojo_floor",
-            "path": "../assets/images/Backgrounds/floor.png"
+            "name": "battle_transition_background",
+            "path": "../assets/images/Backgrounds/BattleTransitionBackground.png"
         },
         {
-            "name": "hero_reborn_map",
-            "path": "../assets/images/Backgrounds/herorebornmap.webp"
+            "name": "dojo_floor",
+            "path": "../assets/images/Floors/DojoFloor.png"
+        },
+        {
+            "name": "dojo_right_wall",
+            "path": "../assets/images/Walls/ForestRightWall.png"
+        },
+        {
+            "name": "dojo_left_wall",
+            "path": "../assets/images/Walls/ForestRightWall.png"
+        },
+        {
+            "name": "lynx_background",
+            "path": "../assets/images/Backgrounds/LynxBackground.webp"
+        },
+        {
+            "name": "forest_floor",
+            "path": "../assets/images/Floors/ForestFloor.png"
+        },
+        {
+            "name": "forest_right_wall",
+            "path": "../assets/images/Walls/ForestRightWall.png"
+        },
+        {
+            "name": "forest_left_wall",
+            "path": "../assets/images/Walls/ForestLeftWall.png"
+        },
+        {
+            "name": "forest_background_center",
+            "path": "../assets/images/Backgrounds/ForestBackgroundCenter.png"
+        },
+        {
+            "name": "vs",
+            "path": "../assets/images/VS.png"
         }
     ],
     "fonts": [],
@@ -40,7 +96,6 @@
             "size": 2,
             "volume": 1
         },
-
         {
             "name": "dojo",
             "path": "../assets/sounds/Music/TrainingRoomMenu.mp3",
@@ -49,13 +104,19 @@
             "loop": true
         },
         {
-            "name": "forest",
+            "name": "boss",
+            "path": "../assets/sounds/Music/lynx_battle.mp3",
+            "size": 2,
+            "volume": 1,
+            "loop": true
+        },
+        {
+            "name": "survival",
             "path": "../assets/sounds/Music/ForestMusic.mp3",
             "size": 2,
             "volume": 1,
             "loop": true
         },
-
         {
             "name": "transition",
             "path": "../assets/sounds/SoundEffects/transition.wav",

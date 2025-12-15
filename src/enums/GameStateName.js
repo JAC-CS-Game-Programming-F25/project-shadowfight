@@ -1,10 +1,11 @@
 const GameStateName = {
-    GameOver: "game-over",
     Play: "play",
+    Practice: "practice",
+    Survival: "survival",
+    BossFight: "boss",
     Victory: "victory",
-    TitleScreen: "title-screen",
+    GameOver: "game-over",
     Transition: "transition",
-    HeroRebornState: "hero-reborn-state",
 };
 
 export default GameStateName;

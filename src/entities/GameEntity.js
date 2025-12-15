@@ -1,68 +1,116 @@
-import { getCollisionDirection, isAABBCollision } from "../../lib/Collision.js";
-import Vector from "../../lib/Vector.js";
+import Sprite from "../../lib/Sprite.js";
+import ImageName from "../enums/ImageName.js";
+import { context, DEBUG, images, matter, world } from "../globals.js";
 
-/**
- * Represents a game entity with position, dimensions, and velocity.
- */
+const { Bodies, Composite } = matter;
+
 export default class GameEntity {
+    static DAMAGE_THRESHOLD_SCALAR = 15;
+
     /**
-     * @param {number} x - Initial x position.
-     * @param {number} y - Initial y position.
-     * @param {number} width - Entity width.
-     * @param {number} height - Entity height.
+     * The base class that all entities in the game should extend.
+     *
+     * @param {object} body A Matter.js body.
      */
-    constructor(x = 0, y = 0, width = 0, height = 0) {
-        this.position = new Vector(x, y);
-        this.dimensions = new Vector(width, height);
-        this.velocity = new Vector(0, 0);
-        this.isOnGround = false;
+    constructor(body) {
+        this.body = body;
+        this.shouldCleanUp = false;
+        this.body.entity = this;
+        this.body.damageThreshold =
+            this.body.mass * GameEntity.DAMAGE_THRESHOLD_SCALAR;
+        this.renderOffset = { x: 0, y: 0 };
+        this.sprites = [];
+        this.currentFrame = 0;
+
+        Composite.add(world, body);
+    }
+
+    update(dt) {
+        if (this.shouldCleanUp) {
+            Composite.remove(world, this.body);
+        }
+    }
+
+    render(renderDebug) {
+        context.save();
+        context.translate(this.body.position.x, this.body.position.y);
+        context.rotate(this.body.angle);
+        this.sprites[this.currentFrame].render(
+            this.renderOffset.x,
+            this.renderOffset.y
+        );
+
+        if (DEBUG) {
+            renderDebug();
+        }
+
+        context.restore();
     }
 
     /**
-     * Updates the entity state.
-     * @param {number} dt - Delta time.
+     * Utility to clone a body based on a set of vertices.
+     *
+     * @see https://brm.io/matter-js/docs/classes/Bodies.html#method_fromVertices
+     *
+     * @param {object} body A Matter.js body.
+     * @returns A cloned Matter.js body.
      */
-    update(dt) {}
-
-    /**
-     * Renders the entity.
-     * @param {CanvasRenderingContext2D} context - The rendering context.
-     */
-    render(context) {}
-
-    /**
-     * Checks if this entity collides with another entity.
-     * @param {Entity} entity - The other entity to check collision with.
-     * @returns {boolean} True if collision occurs, false otherwise.
-     */
-    collidesWith(entity) {
-        return isAABBCollision(
-            this.position.x,
-            this.position.y,
-            this.dimensions.x,
-            this.dimensions.y,
-            entity.position.x,
-            entity.position.y,
-            entity.dimensions.x,
-            entity.dimensions.y
+    static clone(body) {
+        return Bodies.fromVertices(
+            body.position.x,
+            body.position.y,
+            body.vertices,
+            {
+                collisionFilter: body.collisionFilter,
+                render: body.render,
+                plugin: body.plugin,
+                label: body.label,
+                friction: body.friction,
+                restitution: body.restitution,
+                angle: body.angle,
+                slop: body.slop,
+                isStatic: body.isStatic,
+                density: body.density,
+                mass: body.mass,
+                isSensor: body.isSensor,
+            }
         );
     }
 
     /**
-     * Gets the collision direction with another entity.
-     * @param {Entity} entity - The other entity to check collision direction with.
-     * @returns {number} The collision direction.
+     * Utility to check if a body is of a given type.
+     *
+     * @param {object} body A Matter.js body.
+     * @param {string} type Uses an enum from the enums/ folder.
+     * @returns Whether the body is of the given type.
      */
-    getCollisionDirection(entity) {
-        return getCollisionDirection(
-            this.position.x,
-            this.position.y,
-            this.dimensions.x,
-            this.dimensions.y,
-            entity.position.x,
-            entity.position.y,
-            entity.dimensions.x,
-            entity.dimensions.y
+    static isBodyOfType(body, type) {
+        return body.label === type;
+    }
+
+    /**
+     * Constructs an array of sprites given an array
+     * of measurements (x, y, width, height).
+     *
+     * @param {array} measurements
+     * @returns An array of Sprite objects.
+     */
+    static generateSprites(measurements) {
+        /**
+         * The map() method creates a new array populated with the results
+         * of calling a provided function on every element in the calling array.
+         *
+         * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+         */
+        return measurements.map(
+            (measurement) =>
+                new Sprite(
+                    images.get(ImageName.Sprites),
+                    measurement.x,
+                    measurement.y,
+                    measurement.width,
+                    measurement.height
+                )
         );
     }
 }

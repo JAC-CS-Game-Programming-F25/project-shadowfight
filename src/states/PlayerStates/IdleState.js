@@ -1,34 +1,47 @@
+import Animation from "../../../lib/Animation.js";
 import State from "../../../lib/State.js";
-import { keys } from "../../globals.js";
+import PlayerStateName from "../../enums/PlayerStateName.js";
 import { input } from "../../globals.js";
+
 export default class IdleState extends State {
-    constructor(fighter) {
+    constructor(player) {
         super();
-        this.fighter = fighter;
+        this.player = player;
+        this.animation = new Animation([62, 2], 0.15);
     }
 
     enter() {
-        this.fighter.setPose("idle");
-        this.fighter.currentFrame = 0;
-        this.fighter.clearAttackHitbox();
+        this.player.currentAnimation = this.animation;
+        this.animation.refresh();
+        this.player.stop();
     }
 
     update(dt) {
-        // Breathing animation
-        const breathe = Math.sin(this.fighter.currentFrame * 0.2) * 2;
-        this.fighter.bodyParts.torso.y = -35 + breathe;
+        // update the animation
+        this.player.currentAnimation.update(dt);
 
-        // Handle input - use Input class
-        if (input.isKeyHeld("D") || input.isKeyHeld("ARROWRIGHT")) {
-            this.fighter.stateMachine.change("walk", { direction: 1 });
-        } else if (input.isKeyHeld("A") || input.isKeyHeld("ARROWLEFT")) {
-            this.fighter.stateMachine.change("walk", { direction: -1 });
-        } else if (input.isKeyHeld("J")) {
-            this.fighter.stateMachine.change("punch");
-        } else if (input.isKeyHeld("K")) {
-            this.fighter.stateMachine.change("kick");
-        } else if (input.isKeyHeld("L")) {
-            this.fighter.stateMachine.change("block");
+        // Only handle input for player (not enemy)
+        if (!this.player.isEnemy) {
+            if (input.isKeyHeld("D") || input.isKeyHeld("ARROWRIGHT")) {
+                this.player.stateMachine.change(PlayerStateName.Walking, {
+                    direction: 1,
+                });
+            } else if (input.isKeyHeld("A") || input.isKeyHeld("ARROWLEFT")) {
+                this.player.stateMachine.change(PlayerStateName.Walking, {
+                    direction: -1,
+                });
+            } else if (input.isKeyPressed("J")) {
+                this.player.stateMachine.change(PlayerStateName.Punching);
+            } else if (input.isKeyPressed("K")) {
+                this.player.stateMachine.change(PlayerStateName.Kicking);
+            } else if (input.isKeyHeld("L")) {
+                this.player.stateMachine.change(PlayerStateName.Blocking);
+            } else if (
+                input.isKeyPressed("W") ||
+                input.isKeyPressed("ARROWUP")
+            ) {
+                this.player.stateMachine.change(PlayerStateName.Jumping);
+            }
         }
     }
 }

@@ -3,32 +3,27 @@ import State from "../../../lib/State.js";
 import PlayerStateName from "../../enums/PlayerStateName.js";
 import { input, matter } from "../../globals.js";
 
-export default class JumpState extends State {
+export default class FallingState extends State {
     constructor(player) {
         super();
         this.player = player;
-        // Jump: frames 96-99 (rising), cycles once
-        this.animation = new Animation([96, 97, 98, 99], 0.1, 1);
+        this.animation = new Animation([100, 101], 0.1);
     }
 
     enter() {
         this.player.currentAnimation = this.animation;
         this.animation.refresh();
-        this.player.endAttack();
-
-        // Apply jump force
-        this.player.jump();
     }
 
     update(dt) {
         this.player.currentAnimation.update(dt);
 
-        // Check if starting to fall
-        if (this.player.body.velocity.y > 0) {
-            this.player.stateMachine.change(PlayerStateName.Falling);
+        // Check if landing ocured
+        if (Math.abs(this.player.position.y - this.player.groundY) < 5) {
+            this.player.stateMachine.change(PlayerStateName.Idle);
         }
 
-        // Allow air control
+        // Allow player to control the character i the air
         if (!this.player.isEnemy) {
             if (input.isKeyHeld("D") || input.isKeyHeld("ARROWRIGHT")) {
                 this.player.move(1);

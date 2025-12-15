@@ -1,10 +1,13 @@
 const BodyType = {
-    GlassBlock: "glassBlock",
     Ground: "ground",
     Block: "block",
-    Bird: "bird",
-    Pig: "pig",
-    Egg: "egg",
+    Wall: "wall",
+    ShadowFigure: "shadow_figure",
+    Armor: "armor",
+    Healmet: "healmet",
+    Weapon: "weapon",
+    RangedWeapon: "ranged_weapon",
+    Magic: "magic",
 };
 
 export default BodyType;

@@ -1,38 +1,47 @@
+import Animation from "../../../lib/Animation.js";
 import State from "../../../lib/State.js";
-import { keys } from "../../globals.js";
+import PlayerStateName from "../../enums/PlayerStateName.js";
+import MusicName from "../../enums/MusicName.js";
+import { sounds } from "../../globals.js";
+
 export default class PunchState extends State {
-    constructor(fighter) {
+    constructor(player) {
         super();
-        this.fighter = fighter;
+        this.player = player;
+
+        this.animation = new Animation([69, 79, 89], 0.6);
+        this.hitboxActivated = false;
     }
 
     enter() {
-        this.fighter.setPose("punch");
-        this.fighter.currentFrame = 0;
-        this.totalFrames = 10; // Punch lasts 10 frames
-        this.hitboxActive = false;
+        this.player.currentAnimation = this.animation;
+        this.animation.refresh();
+        this.player.stop();
+        this.hitboxActivated = false;
+
+        sounds.play(MusicName.M_Punch);
     }
 
     update(dt) {
-        this.fighter.currentFrame++;
+        this.player.currentAnimation.update(dt);
 
-        // Activate hitbox during active frames (3-6)
-        if (this.fighter.currentFrame >= 3 && this.fighter.currentFrame <= 6) {
-            if (!this.hitboxActive) {
-                this.fighter.attack("punch");
-                this.hitboxActive = true;
-            }
-        } else {
-            this.fighter.clearAttackHitbox();
+        const currentFrame = this.player.currentAnimation.currentFrame;
+        if (
+            (currentFrame === 2 || currentFrame === 3) &&
+            !this.hitboxActivated
+        ) {
+            this.player.startAttack(10); // 10 damage
+            this.hitboxActivated = true;
+        } else if (currentFrame < 2 && currentFrame !== 3) {
+            this.player.endAttack();
         }
 
-        // Return to idle after animation completes
-        if (this.fighter.currentFrame >= this.totalFrames) {
-            this.fighter.stateMachine.change("idle");
+        if (this.animation.isDone()) {
+            this.player.stateMachine.change(PlayerStateName.Idle);
         }
     }
 
     exit() {
-        this.fighter.clearAttackHitbox();
+        this.player.endAttack();
     }
 }

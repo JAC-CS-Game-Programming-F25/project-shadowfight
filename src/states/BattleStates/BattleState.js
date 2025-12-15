@@ -4,16 +4,20 @@ import MusicName from "../../enums/MusicName.js";
 import ImageName from "../../enums/ImageName.js";
 import { context, sounds, images } from "../../globals.js";
 
-export default class PlayState extends State {
+export default class BattleState extends State {
     constructor() {
         super();
         this.context = context;
         this.backgroundImage = images.get(ImageName.Dojo);
     }
 
-    enter() {
-        // Create the player in the middle-left of the screen
-        this.player = new PlayerShadowFigure(300, 600);
+    enter(parameters = {}) {
+        this.player = parameters.player;
+        this.background = parameters.background;
+        this.groundSprite = parameters.groundSprite;
+        this.rightWallSprite = parameters.rightWallSprite;
+        this.leftWallSprite = parameters.leftWallSprite;
+        sounds.play(parameters.battleMusic);
     }
 
     update(dt) {

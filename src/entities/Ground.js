@@ -8,8 +8,8 @@ export default class Ground extends Rectangle {
     static FLOOR = {
         x: 0,
         y: 0,
-        width: 70,
-        height: 70,
+        width: 128,
+        height: 32,
     };
     static SPRITE_MEASUREMENTS = {
         x: -CANVAS_WIDTH / 2,
@@ -51,7 +51,7 @@ export default class Ground extends Rectangle {
     static generateSprites() {
         return [
             new Sprite(
-                images.get(ImageName.Dojo),
+                images.get(ImageName.DojoFloor),
                 Ground.FLOOR.x,
                 Ground.FLOOR.y,
                 Ground.FLOOR.width,

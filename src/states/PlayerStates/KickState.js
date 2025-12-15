@@ -1,38 +1,43 @@
+import Animation from "../../../lib/Animation.js";
 import State from "../../../lib/State.js";
-import { keys } from "../../globals.js";
+import PlayerStateName from "../../enums/PlayerStateName.js";
+import MusicName from "../../enums/MusicName.js";
+import { sounds } from "../../globals.js";
+
 export default class KickState extends State {
-    constructor(fighter) {
+    constructor(player) {
         super();
-        this.fighter = fighter;
+        this.player = player;
+        this.animation = new Animation([64, 65, 66, 67, 68, 69, 70], 0.06, 1);
+        this.hitboxActivated = false;
     }
 
     enter() {
-        this.fighter.setPose("kick");
-        this.fighter.currentFrame = 0;
-        this.totalFrames = 15; // Kick is slower
-        this.hitboxActive = false;
+        this.player.currentAnimation = this.animation;
+        this.animation.refresh();
+        this.player.stop();
+        this.hitboxActivated = false;
+
+        sounds.play(MusicName.M_kick);
     }
 
     update(dt) {
-        this.fighter.currentFrame++;
+        this.player.currentAnimation.update(dt);
 
-        // Activate hitbox during active frames (5-9)
-        if (this.fighter.currentFrame >= 5 && this.fighter.currentFrame <= 9) {
-            if (!this.hitboxActive) {
-                this.fighter.attack("kick");
-                this.hitboxActive = true;
-            }
-        } else {
-            this.fighter.clearAttackHitbox();
+        const currentFrame = this.player.currentAnimation.currentFrame;
+        if (currentFrame >= 3 && currentFrame <= 5 && !this.hitboxActivated) {
+            this.player.startAttack(15); // damage set ot 15
+            this.hitboxActivated = true;
+        } else if (currentFrame < 3 || currentFrame > 5) {
+            this.player.endAttack();
         }
 
-        // Return to idle after animation completes
-        if (this.fighter.currentFrame >= this.totalFrames) {
-            this.fighter.stateMachine.change("idle");
+        if (this.animation.isDone()) {
+            this.player.stateMachine.change(PlayerStateName.Idle);
         }
     }
 
     exit() {
-        this.fighter.clearAttackHitbox();
+        this.player.endAttack();
     }
 }

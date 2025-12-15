@@ -1,22 +1,36 @@
+import Animation from "../../../lib/Animation.js";
 import State from "../../../lib/State.js";
 import PlayerStateName from "../../enums/PlayerStateName.js";
-import { input, keys } from "../../globals.js";
+import { input } from "../../globals.js";
 
 export default class BlockState extends State {
-    constructor(fighter) {
+    constructor(player) {
         super();
-        this.animationFrames = [];
-        this.currentFrame = null;
-        this.fighter = fighter;
-        // set the animation
+        this.player = player;
+        // Block: frame 13 (defensive stance)
+        this.animation = new Animation([13], 0.1);
     }
 
-    enter() {}
+    enter() {
+        this.player.currentAnimation = this.animation;
+        this.animation.refresh();
+        this.player.stop();
+        this.player.isBlocking = true;
+        this.player.endAttack();
+    }
 
     update(dt) {
-        // Hold block while key is pressed
-        if (!input.isKeyHeld("L")) {
-            this.fighter.stateMachine.change("idle");
+        this.player.currentAnimation.update(dt);
+
+        // Only player responds to input
+        if (!this.player.isEnemy) {
+            if (!input.isKeyHeld("L")) {
+                this.player.stateMachine.change(PlayerStateName.Idle);
+            }
         }
+    }
+
+    exit() {
+        this.player.isBlocking = false;
     }
 }

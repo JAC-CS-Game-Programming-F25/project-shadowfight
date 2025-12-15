@@ -33,10 +33,6 @@ export default class Rectangle extends GameEntity {
     }
 
     update(dt) {
-        if (this.didGoOffScreen()) {
-            this.shouldCleanUp = true;
-        }
-
         super.update(dt);
     }
 
@@ -51,12 +47,5 @@ export default class Rectangle extends GameEntity {
                 this.height
             );
         });
-    }
-
-    didGoOffScreen() {
-        return (
-            this.body.position.x + this.height / 2 < 0 ||
-            this.body.position.x - this.height / 2 > CANVAS_WIDTH
-        );
     }
 }

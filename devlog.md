@@ -168,3 +168,9 @@ I am going ot attemp to remake the player and set up every state. I will use the
 ## major change:
 
 If i can't get a player to work properly, i will just make a punching bag attached to a string like in the dojo and have a score. Making certain move combinations already will have a damage value associated with them, so i will just do a scoring system with a health bar for the punching bag and when it is at 0 uit upgrades the level of the player or something along those lines.
+
+## making the walls.
+
+I decided to just make 2 classes one for the right walls and one for the left walls and then pass in the sprites for each manually because it was getting a bit complicated because of the super class's call. I wouldof had to redefine values of static variables for the sprite positions before callign the constructors which gave me errors. i think by doing it with 2 different classes, since the wass will always have the smae dimentions and receive the exact sprite they need, i will be able to make the walls without too much issue.
+
+i am working through the issues i currently have with the game. i had to use ai for a lot of issues because they came down to very speficbugs and i couldnt understand whythey were happening. turns out the sarter code had an issue with the soundpool where the sound wasnt getting stopped properly so i had to correct that. now i am working on generating the sprite for the character using another character because i had had some issues
